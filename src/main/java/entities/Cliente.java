@@ -110,7 +110,7 @@ public class Cliente extends Pessoa implements Cadastro {
                         "Login: " + getLista_cliente().get(i).getLogin() + "\n" +
                         // ver o get endereço
                         "Saldo: " + getLista_cliente().get(i).getSaldo() + "\n" +
-                        "Tipo de conta: " + getLista_cliente().get(i).getTipoConta() + "\n" +"Numero da conta: " +getLista_cliente().get(i).getNumeroConta()+
+                        "Tipo de conta: " + getLista_cliente().get(i).getTipoConta() + "\n" +"Numero da conta: " + getLista_cliente().get(i).getNumero_conta().getNumero()+"\n"+
                         "Gerente Responsável: " + getLista_cliente().get(i).getGerente()+"\n"+
                         "Agencia: "+getLista_cliente().get(i).getAgencia());
                         

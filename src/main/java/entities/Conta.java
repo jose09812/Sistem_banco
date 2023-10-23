@@ -7,9 +7,11 @@ import lombok.Data;
 
 @Data
 public class Conta {
+    
     private String numero;
     private ArrayList<Conta> lista_conta = new ArrayList<>();
     //pedir socorro para algume porque o gerador ta funcionando porem só gera conta com numero 0.09873
+    //o erro provavelmente esta na hora onde eu  chamo 
     public Conta(String numero) {
         this.numero = numero;
     }
@@ -25,7 +27,9 @@ public class Conta {
             numero_conta = String.valueOf(num_fix + 000 + numero_aleatorio) ;
             while (getLista_conta().contains(numero_conta)) {
                 numero_aleatorio = random.nextInt();
-                numero_conta = String.valueOf(num_fix + 000 + numero_aleatorio);
+                // numero_conta = String.valueOf(num_fix);// + 000 + numero_aleatorio);
+                String teste1 = String.valueOf(numero_aleatorio);
+                numero_conta = num_fix + "000" + teste1;
             }
             Conta conta = new Conta(numero_conta);
             return  conta;

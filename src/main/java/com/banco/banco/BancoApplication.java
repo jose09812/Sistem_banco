@@ -36,7 +36,7 @@ public class BancoApplication {
       SpringApplication.run(BancoApplication.class, args);
       Endereco teste = Endereco.getEnderecoByCep("25720160");
       Gerente chefe = new Gerente("Anderson", "333", "22/11/99", "chefe", "chefe", teste, 200, null, null, true,
-            "Gerente", Agencia.ITAMARATY);
+            "Gerente", Agencia.ITAIPAVA);
       Gerente.getLista_funcionario().add(chefe);
       ArrayList<Double> historico = new ArrayList<>();
       Agencia agencia = Agencia.encontrar_agencia("Anderson");

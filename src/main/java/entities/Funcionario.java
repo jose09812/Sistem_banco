@@ -1,5 +1,7 @@
 package entities;
 import java.util.ArrayList;
+
+import enums.Agencia;
 import interfaces.Cadastro;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -16,8 +18,8 @@ public abstract class Funcionario extends Pessoa implements Cadastro{
     private static ArrayList<Funcionario> lista_funcionario = new ArrayList<>();
     
     public Funcionario(String nome, String cpf, String data_nasc, String login, String senha,
-    Endereco endereco, double salario, boolean ativo, String cargo) {
-        super(nome, cpf, data_nasc, login, senha, endereco, ativo);
+    Endereco endereco, double salario, boolean ativo, String cargo, Agencia agencia) {
+        super(nome, cpf, data_nasc, login, senha, endereco, ativo, agencia);
         this.salario = salario;
         this.cargo = cargo;
     }

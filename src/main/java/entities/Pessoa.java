@@ -1,8 +1,9 @@
 package entities;
-
+import enums.Agencia;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+
 
 @Data
 @MappedSuperclass
@@ -16,9 +17,10 @@ public abstract class Pessoa {
     private String senha;
     private Endereco endereco;
     private boolean ativo;
+    private Agencia agencia;
     
     public Pessoa(String nome, String cpf, String data_nasc, String login, String senha,
-    Endereco endereco, boolean ativo) {
+    Endereco endereco, boolean ativo,Agencia agencia) {
         this.nome = nome;
         this.cpf = cpf;
         this.data_nasc = data_nasc;
@@ -26,6 +28,7 @@ public abstract class Pessoa {
         this.senha = senha;
         this.endereco = endereco;
         this.ativo = ativo;
+        this.agencia = agencia;
     }
     public boolean isAtivo() {
         return ativo;

@@ -4,16 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import enums.Agencia;
+
+
+
 
 public class Caixa extends Funcionario {
     Scanner sc = new Scanner(System.in);
     Scanner sc2 = new Scanner(System.in);
 
     public Caixa(String nome, String cpf, String data_nasc, String login, String senha,
-            Endereco endereco, double salario, String cpts, boolean ativo, String cargo) {
-        super(nome, cpf, data_nasc, login, senha, endereco, salario, ativo, cargo);
+            Endereco endereco, double salario, String cpts, boolean ativo, String cargo, Agencia agencia) {
+        super(nome, cpf, data_nasc, login, senha, endereco, salario, ativo, cargo, agencia);
     }
-
+   
     @Override
     public void criar() {
         //
@@ -46,7 +50,10 @@ public class Caixa extends Funcionario {
         System.out.println("Complemento:");
         complemento = sc.nextLine();
         teste.setComplemento(complemento);
-        Cliente cliente = new Cliente(nome, cpf, data_nac, login, senha, teste, saldo, tipo_conta, gerente, ativo,historico);
+        Agencia agencia = Agencia.encontrar_agencia(gerente);
+        Conta conta = new Conta("0");
+        Conta nova_Conta = conta.gerar_conta(cpf,agencia);
+        Cliente cliente = new Cliente(nome, cpf, data_nac, login, senha, teste, saldo, tipo_conta, gerente, ativo,historico,agencia,nova_Conta);
         Cliente.getLista_cliente().add(cliente);
     }
 

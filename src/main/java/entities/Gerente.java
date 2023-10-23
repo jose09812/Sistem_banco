@@ -1,24 +1,26 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import enums.Agencia;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-// @Data
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class Gerente extends Funcionario {
 
     private String departamento;
-    private Agencia agencia;
-
+    private HashMap<Agencia,ArrayList<Pedido>>lista_pedido = new HashMap<>();
     Scanner sc = new Scanner(System.in);
     Scanner sc2 = new Scanner(System.in);
 
     public Gerente(String nome, String cpf, String data_nasc, String login, String senha,
-            Endereco endereco, double salario, String cpts, String departamento, Agencia agencia, boolean ativo,
-            String cargo) {
-        super(nome, cpf, data_nasc, login, senha, endereco, salario, ativo, cargo);
+            Endereco endereco, double salario, String cpts, String departamento, boolean ativo,
+            String cargo, Agencia agencia) {
+        super(nome, cpf, data_nasc, login, senha, endereco, salario, ativo, cargo, agencia);
         this.departamento = departamento;
-        this.agencia = agencia;
     }
 
     public String getDepartamento() {
@@ -27,14 +29,6 @@ public class Gerente extends Funcionario {
 
     public void setDepartamento(String departamento) {
         this.departamento = departamento;
-    }
-
-    public Agencia getAgencia() {
-        return agencia;
-    }
-
-    public void setAgencia(Agencia agencia) {
-        this.agencia = agencia;
     }
 
     @Override
@@ -75,9 +69,11 @@ public class Gerente extends Funcionario {
         System.out.println("Complemento:");
         complemento = sc.nextLine();
         teste.setComplemento(complemento);;
-
+        Agencia agencia = Agencia.encontrar_agencia(gerente);
+        Conta conta = new Conta("0");
+        Conta nova_Conta = conta.gerar_conta("121",agencia);
         Cliente cliente = new Cliente(nome, cpf, data_nac, login, senha, teste, saldo, tipo_conta, gerente, ativo,
-                historico);
+                historico,agencia,nova_Conta);
         Cliente.getLista_cliente().add(cliente);
     }
 
@@ -230,6 +226,8 @@ public class Gerente extends Funcionario {
                 System.out.println(Cliente.getLista_cliente().get(i).getTipoConta());
                 System.out.println(Cliente.getLista_cliente().get(i).getGerente());
                 System.out.println(Cliente.getLista_cliente().get(i).getSaldo());
+                System.out.println(Cliente.getLista_cliente().get(i).getAgencia());
+
             }
 
         }
@@ -354,7 +352,7 @@ public class Gerente extends Funcionario {
         // nome,cpf,data_nasc,login,senha,Endereco endereco,double salario, String ctps,
         // boolean ativo,cargo
 
-        String nome, cpf, data_nasc, login, senha1, senha2, senha = "", cargo;
+        String nome, cpf, data_nasc, login, senha1, senha2, senha = "", cargo,gerente_cadastro;
         String  cep, complemento;
         double salario;
         int numero;
@@ -390,15 +388,19 @@ public class Gerente extends Funcionario {
         System.out.println("Digite o complemento");
         complemento = sc.nextLine();
         endereco.setComplemento(complemento);
-
+        System.out.println("Digite o nome do responsavel pelo cadastro do funcionario:");
+        gerente_cadastro = sc.nextLine();
+        Agencia agencia = Agencia.encontrar_agencia(gerente_cadastro);
+        
         
         if (cargo.equalsIgnoreCase("gerente")) {
-            Gerente gerente = new Gerente(nome, cpf, data_nasc, login, senha, endereco, salario, cpf, cep, agencia,
-                    isAtivo(), cargo);
+            Gerente gerente = new Gerente(nome, cpf, data_nasc, login, senha, endereco, salario, cpf, cep,
+                    isAtivo(), cargo,agencia);
             Funcionario.getLista_funcionario().add(gerente);
+            lista_pedido.put(agencia,new ArrayList<>());
             System.out.println("Operação realizada com sucesso");
         } else {
-            Caixa caixa = new Caixa(nome, cpf, data_nasc, login, senha, endereco, salario, cpf, isAtivo(), cargo);
+            Caixa caixa = new Caixa(nome, cpf, data_nasc, login, senha, endereco, salario, cpf, isAtivo(), cargo,agencia);
             Funcionario.getLista_funcionario().add(caixa);
             System.out.println("Operação realizada com sucesso");
         }
@@ -550,5 +552,18 @@ public class Gerente extends Funcionario {
                 System.out.println(Cliente.getLista_cliente().get(i).getNome());
             }
         }
+    }
+    public void movimentacao(){
+        //mudar somente a logica quando implementar o HashMap
+        System.out.println("digite cpf:");
+        String cpf = sc.nextLine();
+        double soma = 0;
+        for (int i = 0; i < Extrato.getExtrato_geral().size(); i++) {
+            if (cpf.equals(Extrato.getExtrato_geral().get(i).getCpf())) {
+                soma += Extrato.getExtrato_geral().get(i).getValor();
+            }
+        }
+        System.out.println(soma);
+
     }
 }

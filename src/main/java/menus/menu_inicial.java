@@ -130,6 +130,10 @@ public class menu_inicial {
                         case 11:
                             System.out.println("Até mais");
                             break;
+                            case 12:
+                            ((Gerente) Funcionario.getLista_funcionario().get(j)).movimentacao();
+                            case 13:
+                        
                         default:
                             System.out.println("Opção Inválida");
                             break;

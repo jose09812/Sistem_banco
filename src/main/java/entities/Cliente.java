@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import enums.Agencia;
 import interfaces.Cadastro;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -15,7 +17,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Pessoa implements Cadastro {
-
+    // colocar o cpf e a agencia do cliente para o gerador de contas começar a gerar
+    // as contas do cliente.
     Scanner sc = new Scanner(System.in);
     Scanner sc2 = new Scanner(System.in);
 
@@ -25,17 +28,17 @@ public class Cliente extends Pessoa implements Cadastro {
     private static Random rand = new Random();
     private static double numeroConta = rand.nextDouble();
     private String gerente;
-    private ArrayList<Double> historico = new ArrayList<>();// add uma string ao inves de uma tabela nova e criar classe
-                                                            // historico
+    private Conta numero_conta;
+    private ArrayList<Double> historico = new ArrayList<>();
 
     public Cliente(String nome, String cpf, String data_nasc, String login, String senha,
             Endereco endereco, double saldo, String tipoConta, String gerente, boolean ativo,
-            ArrayList<Double> historico) {
-        super(nome, cpf, data_nasc, login, senha, endereco, ativo);
+            ArrayList<Double> historico, Agencia agencia, Conta numero_conta) {
+        super(nome, cpf, data_nasc, login, senha, endereco, ativo, agencia);
         this.saldo = saldo;
         this.tipoConta = tipoConta;
         this.gerente = gerente;
-
+        this.numero_conta = numero_conta;
     }
 
     public ArrayList<Double> getHistorico() {
@@ -107,8 +110,10 @@ public class Cliente extends Pessoa implements Cadastro {
                         "Login: " + getLista_cliente().get(i).getLogin() + "\n" +
                         // ver o get endereço
                         "Saldo: " + getLista_cliente().get(i).getSaldo() + "\n" +
-                        "Tipo de conta: " + getLista_cliente().get(i).getTipoConta() + "\n" +
-                        "Gerente Responsável: " + getLista_cliente().get(i).getGerente());
+                        "Tipo de conta: " + getLista_cliente().get(i).getTipoConta() + "\n" +"Numero da conta: " +getLista_cliente().get(i).getNumeroConta()+
+                        "Gerente Responsável: " + getLista_cliente().get(i).getGerente()+"\n"+
+                        "Agencia: "+getLista_cliente().get(i).getAgencia());
+                        
             }
         }
     }
@@ -149,7 +154,11 @@ public class Cliente extends Pessoa implements Cadastro {
         double valor;
         System.out.println("Digite o valor: ");
         valor = sc.nextDouble();
+        if (valor <= 7000) {
+            // add na lista de pedido do gerente
+            
 
+        }
         if (valor <= this.saldo) {
             this.saldo -= valor;
             System.out.println("saque realizado com sucesso: ");
